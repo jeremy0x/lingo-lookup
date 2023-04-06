@@ -1,5 +1,8 @@
 import 'animate.css';
 import { FormEvent, useState } from 'react';
+import loader from '../assets/animated-search-icon.gif';
+import searchingAnimation from '../assets/searching-animation.gif';
+import errorAnimation from '../assets/error-animation.gif';
 
 const Main = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -83,12 +86,42 @@ const Main = () => {
           <button
             type='submit'
             className='absolute right-2.5 bottom-2.5 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800'
-            onClick={handleSearch}
           >
             Search
           </button>
         </div>
       </form>
+
+      {/* loader */}
+      {status == 'fetching' && (
+        <div className='animate__animated animate__fadeIn mt-8 flex items-center justify-center'>
+          <img src={loader} alt='loading animation' className='w-64' />
+        </div>
+      )}
+
+      {/* error message */}
+      {status == 'error' && (
+        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-xl text-gray-400'>
+          <img src={errorAnimation} alt='error animation' className='w-36' />
+          <p>There was an error...</p>
+        </div>
+      )}
+
+      {/* invalid search */}
+      {status == 'no definitions' && (
+        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-xl leading-relaxed text-gray-400'>
+          <p>Sorry pal, we couldn't find definitions for '{userInput}'.</p>
+          <p>
+            You can try the search again at later time or head to the web
+            instead.
+          </p>
+          <img
+            src={searchingAnimation}
+            alt='searching animation'
+            className='-mt-10 w-96'
+          />
+        </div>
+      )}
     </main>
   );
 };
