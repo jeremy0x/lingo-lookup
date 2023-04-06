@@ -2,7 +2,7 @@ import 'animate.css';
 
 const Footer = () => {
   return (
-    <footer className='animate__animated animate__fadeIn absolute bottom-0 left-0 mt-16 w-full p-4 sm:p-6 transition-all'>
+    <footer className='animate__animated animate__fadeInDown absolute bottom-0 left-0 mt-16 w-full p-4 transition-all sm:p-6'>
       <div className='mx-auto max-w-screen-xl'>
         <hr className='my-6 border-gray-700 sm:mx-auto lg:my-8' />
 
@@ -12,7 +12,8 @@ const Footer = () => {
             <a
               href='https://dictionaryapi.dev'
               target='_blank'
-              className='text-inherit hover:text-white transition-all underline hover:no-underline'
+              rel='noopener'
+              className='text-inherit underline transition-all hover:text-white hover:no-underline'
             >
               Free Dictionary API
             </a>
@@ -23,11 +24,12 @@ const Footer = () => {
             <a
               href='https://github.com/jeremy0x/lingo-lookup/'
               target='_blank'
+              rel='noopener'
               className='text-gray-500 transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-white'
               title='Star on GitHub ⭐'
             >
               <svg
-                className='w-5 h-5'
+                className='h-5 w-5'
                 fill='currentColor'
                 viewBox='0 0 24 24'
                 aria-hidden='true'
@@ -44,10 +46,11 @@ const Footer = () => {
             <a
               href='https://jeremy0x.hashnode.dev/'
               target='_blank'
+              rel='noopener'
               className='text-gray-500 transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-blue-700'
               title='View Hashnode Blog'
             >
-              <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 24 24'>
+              <svg className='h-4 w-4' fill='currentColor' viewBox='0 0 24 24'>
                 <path d='m22.351 8.019-6.37-6.37a5.63 5.63 0 0 0-7.962 0l-6.37 6.37a5.63 5.63 0 0 0 0 7.962l6.37 6.37a5.63 5.63 0 0 0 7.962 0l6.37-6.37a5.63 5.63 0 0 0 0-7.962zM12 15.953a3.953 3.953 0 1 1 0-7.906 3.953 3.953 0 0 1 0 7.906z'></path>
               </svg>
               <span className='sr-only'>Hashnode blog</span>
@@ -56,11 +59,12 @@ const Footer = () => {
             <a
               href='https://twitter.com/jeremy0x_/'
               target='_blank'
+              rel='noopener'
               className='text-gray-500 transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-blue-400'
               title='Go to Twitter Profile'
             >
               <svg
-                className='w-5 h-5'
+                className='h-5 w-5'
                 fill='currentColor'
                 viewBox='0 0 24 24'
                 aria-hidden='true'
@@ -73,11 +77,12 @@ const Footer = () => {
             <a
               href='https://linkedin.com/in/jeremy0x/'
               target='_blank'
+              rel='noopener'
               className='text-gray-500 transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-blue-500'
               title='Connect on LinkedIn'
             >
               <svg
-                className='w-4 h-4'
+                className='h-4 w-4'
                 fill='currentColor'
                 viewBox='0 0 93.06 93.06'
               >
