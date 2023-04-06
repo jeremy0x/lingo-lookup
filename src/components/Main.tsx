@@ -1,18 +1,52 @@
-import { MouseEvent, useState } from 'react';
+import 'animate.css';
+import { FormEvent, useState } from 'react';
 
 const Main = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [userInput, setUserInput] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
+  const [searchResult, setSearchResult] = useState([]);
 
-  const handleSearch = (e: MouseEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     if (searchQuery.trim() == '') return;
-
-    e.preventDefault();
-    console.log(searchQuery);
+    event.preventDefault();
+    setUserInput(searchQuery);
+    getWordDetails(searchQuery);
   };
 
+  async function getWordDetails(searchQuery: string): Promise<void> {
+    setStatus('fetching');
+    try {
+      const response = await fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchQuery}`
+      );
+      const wordDetails = await response.json();
+
+      if (wordDetails.length > 0) {
+        console.log(wordDetails[0].word);
+
+        if (wordDetails[0].title) {
+          setStatus('no definitions');
+        } else {
+          setStatus('definition found');
+          setSearchResult(wordDetails[0]);
+        }
+      } else {
+        setStatus('no definitions');
+      }
+    } catch (error) {
+      setStatus('error');
+      console.error(error);
+    }
+  }
+
   return (
-    <main className='mb-64 flex-grow'>
-      <form className='mx-auto w-full max-w-5xl'>
+    <main className='mb-20 flex-grow'>
+      {/* search form */}
+      <form
+        className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl'
+        onSubmit={handleSubmit}
+      >
         <label
           htmlFor='search'
           className='sr-only mb-2 text-sm font-medium text-gray-900'
