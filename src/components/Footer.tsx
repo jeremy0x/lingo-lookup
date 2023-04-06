@@ -2,7 +2,7 @@ import 'animate.css';
 
 const Footer = () => {
   return (
-    <footer className='animate__animated animate__fadeInDown absolute bottom-0 left-0 mt-16 w-full p-4 transition-all sm:p-6'>
+    <footer className='animate__animated animate__fadeIn animate__faster absolute bottom-0 left-0 mt-16 w-full p-4 transition-all sm:p-6'>
       <div className='mx-auto max-w-screen-xl'>
         <hr className='my-6 border-gray-700 sm:mx-auto lg:my-8' />
 
