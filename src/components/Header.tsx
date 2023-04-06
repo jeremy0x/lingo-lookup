@@ -2,7 +2,7 @@ import 'animate.css';
 
 const Header = () => {
   return (
-    <header className='animate__animated animate__fadeIn animate__slow mt-16 mb-10 flex flex-col place-items-center gap-8 text-center'>
+    <header className='animate__animated animate__fadeInUp animate__slow mt-16 mb-10 flex flex-col place-items-center gap-8 text-center'>
       <h1 className='animate__animated animate__swing animate__delay-2s text-5xl font-semibold sm:text-6xl'>
         LingoLookup
       </h1>
