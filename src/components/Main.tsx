@@ -14,10 +14,10 @@ const Main = () => {
     if (searchQuery.trim() == '') return;
     event.preventDefault();
     setUserInput(searchQuery);
-    getWordDetails(searchQuery);
+    getWordDetails();
   };
 
-  async function getWordDetails(searchQuery: string): Promise<void> {
+  async function getWordDetails(): Promise<void> {
     setStatus('fetching');
     try {
       const response = await fetch(
@@ -25,17 +25,11 @@ const Main = () => {
       );
       const wordDetails = await response.json();
 
-      if (wordDetails.length > 0) {
-        console.log(wordDetails[0].word);
-
-        if (wordDetails[0].title) {
-          setStatus('no definitions');
-        } else {
-          setStatus('definition found');
-          setSearchResult(wordDetails[0]);
-        }
-      } else {
+      if (wordDetails.title) {
         setStatus('no definitions');
+      } else {
+        setStatus('definition found');
+        setSearchResult(wordDetails);
       }
     } catch (error) {
       setStatus('error');
@@ -78,10 +72,11 @@ const Main = () => {
             type='search'
             id='search'
             className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-4 pl-10 text-base text-gray-300 placeholder-gray-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-blue-500'
-            placeholder='What word would you like to know more about? Look it up here...'
+            placeholder='Search for a word...'
             required
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            autoComplete='off'
           />
           <button
             type='submit'
@@ -109,7 +104,7 @@ const Main = () => {
 
       {/* invalid search */}
       {status == 'no definitions' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-xl leading-relaxed text-gray-400'>
+        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-base leading-relaxed text-gray-400 sm:text-xl'>
           <p>Sorry pal, we couldn't find definitions for '{userInput}'.</p>
           <p>
             You can try the search again at later time or head to the web
@@ -120,6 +115,76 @@ const Main = () => {
             alt='searching animation'
             className='-mt-10 w-96'
           />
+        </div>
+      )}
+
+      {/* display results */}
+      {status == 'definition found' && (
+        <div className='animate__animated animate__fadeIn mt-8 flex w-full flex-col items-center justify-center gap-8'>
+          {searchResult.map((wordData, index) => (
+            <div key={index}>
+              {index === 0 && (
+                <div className='flex flex-col gap-3'>
+                  <div>Word Searched - {wordData.word}</div>
+                  <div>Source URL - {wordData.sourceUrls[0]}</div>
+                  <div>
+                    License:{' '}
+                    <a
+                      href={wordData.license.url}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      {wordData.license.name}
+                    </a>
+                  </div>
+                  {wordData.meanings.map((meaning, index) => (
+                    <div
+                      key={index}
+                      className='my-8 flex flex-col items-start justify-start'
+                    >
+                      {/* part of speech */}
+                      <div>Part of speech - {meaning.partOfSpeech}</div>
+                      {meaning.definitions.map((definition, index) => (
+                        // Definition
+                        <div key={index} className='my-4'>
+                          <div>
+                            {index + 1}. {definition.definition}
+                          </div>
+
+                          {/* Synonyms */}
+                          {definition.synonyms.length > 0 && (
+                            <p>Synonyms: {definition.synonyms.join(', ')}</p>
+                          )}
+
+                          {/* Antonyms */}
+                          {definition.antonyms.length > 0 && (
+                            <p>Antonyms: {definition.antonyms.join(', ')}</p>
+                          )}
+
+                          {/* Example */}
+                          {definition.example && (
+                            <p className='text-gray-500'>
+                              "{definition.example}"
+                            </p>
+                          )}
+                        </div>
+                      ))}
+
+                      {/* Synonyms */}
+                      {meaning.synonyms.length > 0 && (
+                        <div>
+                          Synonyms -{' '}
+                          <div className='text-gray-500'>
+                            {meaning.synonyms.join(', ')}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </main>
