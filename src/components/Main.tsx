@@ -62,11 +62,9 @@ const Main = () => {
     }
   }
 
-  const pronounce = (audioFile) => {
-    try {
-      const audio = new Audio(audioFile);
-      audio.currentTime = 0;
-      audio.play();
+  const playPhoneticAudio = (audioUrl: string) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
     } catch (error) {
       console.error(error);
     }
