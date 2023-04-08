@@ -21,6 +21,7 @@ interface WordDetails {
       example: string;
     }[];
     synonyms: string[];
+    antonyms: string[];
   }[];
   sourceUrls: string[];
   license: {
@@ -39,10 +40,10 @@ const Main = () => {
     if (searchQuery.trim() == '') return;
     event.preventDefault();
     setUserInput(searchQuery);
-    getWordDetails();
+    getWordDetails(searchQuery);
   };
 
-  async function getWordDetails(): Promise<void> {
+  async function getWordDetails(searchQuery: string): Promise<void> {
     setStatus('fetching');
     try {
       const response = await fetch(
@@ -61,6 +62,13 @@ const Main = () => {
       console.error(error);
     }
   }
+
+  // function to handle clicking on a synonym or an antonym
+  const handleWordClick = async (word: string) => {
+    setSearchQuery(word);
+    getWordDetails(word);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const playPhoneticAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
@@ -154,7 +162,7 @@ const Main = () => {
           {searchResult.map((wordData: WordDetails, index: number) => (
             <>
               {index === 0 && (
-                <div key={index} className='flex flex-col gap-3'>
+                <div key={index} className='flex w-full flex-col gap-3'>
                   <div className='flex flex-row flex-wrap items-center justify-between gap-4 border-b border-gray-600 pb-12'>
                     <div className='text-7xl'>{wordData.word}</div>
 
@@ -198,12 +206,40 @@ const Main = () => {
 
                           {/* Synonyms */}
                           {definition.synonyms.length > 0 && (
-                            <p>Synonyms: {definition.synonyms.join(', ')}</p>
+                            <p>
+                              Synonyms:{' '}
+                              {definition.synonyms.map((synonym, index) => (
+                                <>
+                                  <span
+                                    key={index}
+                                    className='cursor-pointer text-blue-500'
+                                    onClick={() => handleWordClick(synonym)}
+                                  >
+                                    {synonym}
+                                  </span>
+                                  <span>, </span>
+                                </>
+                              ))}
+                            </p>
                           )}
 
                           {/* Antonyms */}
                           {definition.antonyms.length > 0 && (
-                            <p>Antonyms: {definition.antonyms.join(', ')}</p>
+                            <p>
+                              Antonyms:{' '}
+                              {definition.antonyms.map((antonym, index) => (
+                                <>
+                                  <span
+                                    key={index}
+                                    className='cursor-pointer text-blue-500'
+                                    onClick={() => handleWordClick(antonym)}
+                                  >
+                                    {antonym}
+                                  </span>
+                                  <span>, </span>
+                                </>
+                              ))}
+                            </p>
                           )}
 
                           {/* Example */}
@@ -218,9 +254,41 @@ const Main = () => {
                       {/* Synonyms */}
                       {meaning.synonyms.length > 0 && (
                         <div>
-                          Synonyms -{' '}
                           <div className='text-gray-500'>
-                            {meaning.synonyms.join(', ')}
+                            Synonyms:{' '}
+                            {meaning.synonyms.map((synonym, index) => (
+                              <>
+                                <span
+                                  key={index}
+                                  className='cursor-pointer text-blue-500'
+                                  onClick={() => handleWordClick(synonym)}
+                                >
+                                  {synonym}
+                                </span>
+                                <span>, </span>
+                              </>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Antonyms */}
+                      {meaning.antonyms.length > 0 && (
+                        <div>
+                          <div className='text-gray-500'>
+                            Antonyms:{' '}
+                            {meaning.antonyms.map((antonym, index) => (
+                              <>
+                                <span
+                                  key={index}
+                                  className='cursor-pointer text-blue-500'
+                                  onClick={() => handleWordClick(antonym)}
+                                >
+                                  {antonym}
+                                </span>
+                                <span>, </span>
+                              </>
+                            ))}
                           </div>
                         </div>
                       )}
