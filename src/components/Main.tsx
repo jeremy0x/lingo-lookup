@@ -3,6 +3,7 @@ import { FormEvent, useState } from 'react';
 import loader from '../assets/animated-search-icon.gif';
 import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
+import speakerIcon from '../assets/speaker-icon.svg';
 
 const Main = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -36,6 +37,16 @@ const Main = () => {
       console.error(error);
     }
   }
+
+  const pronounce = (audioFile) => {
+    try {
+      const audio = new Audio(audioFile);
+      audio.currentTime = 0;
+      audio.play();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <main className='mb-32 flex-grow'>
@@ -126,17 +137,26 @@ const Main = () => {
               {index === 0 && (
                 <div className='flex flex-col gap-3'>
                   <div>Word Searched - {wordData.word}</div>
-                  <div>Source URL - {wordData.sourceUrls[0]}</div>
-                  <div>
-                    License:{' '}
-                    <a
-                      href={wordData.license.url}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      {wordData.license.name}
-                    </a>
-                  </div>
+
+                  <button
+                    onClick={() =>
+                      wordData.phonetics[0].audio
+                        ? playAudio(wordData.phonetics[0].audio)
+                        : playAudio(wordData.phonetics[1].audio)
+                    }
+                  >
+                    <span>
+                      <img src={speakerIcon} alt='speaker icon' />
+                    </span>
+                    <span className='pl-2'>
+                      {wordData.phonetics[0] && wordData.phonetics[0].text
+                        ? wordData.phonetics[0].text
+                        : wordData.phonetics[1] && wordData.phonetics[1].text
+                        ? wordData.phonetics[1].text
+                        : '?'}
+                    </span>
+                  </button>
+
                   {wordData.meanings.map((meaning, index) => (
                     <div
                       key={index}
@@ -181,6 +201,17 @@ const Main = () => {
                       )}
                     </div>
                   ))}
+                  <div>Source URL - {wordData.sourceUrls[0]}</div>
+                  <div>
+                    License:{' '}
+                    <a
+                      href={wordData.license.url}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      {wordData.license.name}
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
