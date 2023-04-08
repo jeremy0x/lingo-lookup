@@ -5,11 +5,35 @@ import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
 import speakerIcon from '../assets/speaker-icon.svg';
 
+interface WordDetails {
+  title?: string;
+  word: string;
+  phonetics: {
+    text: string;
+    audio: string;
+  }[];
+  meanings: {
+    partOfSpeech: string;
+    definitions: {
+      definition: string;
+      synonyms: string[];
+      antonyms: string[];
+      example: string;
+    }[];
+    synonyms: string[];
+  }[];
+  sourceUrls: string[];
+  license: {
+    name: string;
+    url: string;
+  };
+}
+
 const Main = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [status, setStatus] = useState<string>('');
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState<WordDetails[]>([]);
 
   const handleSubmit = (event: FormEvent) => {
     if (searchQuery.trim() == '') return;
@@ -132,8 +156,8 @@ const Main = () => {
       {/* display results */}
       {status == 'definition found' && (
         <div className='animate__animated animate__fadeIn mt-8 flex w-full flex-col items-center justify-center gap-8'>
-          {searchResult.map((wordData, index) => (
-            <div key={index}>
+          {searchResult.map((wordData: WordDetails, index: number) => (
+            <>
               {index === 0 && (
                 <div className='flex flex-col gap-3'>
                   <div>Word Searched - {wordData.word}</div>
