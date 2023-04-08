@@ -65,9 +65,6 @@ const Main = () => {
   const playPhoneticAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
     audio.play();
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -153,30 +150,37 @@ const Main = () => {
 
       {/* display results */}
       {status == 'definition found' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex w-full flex-col items-center justify-center gap-8'>
+        <div className='animate__animated animate__fadeIn mt-16 flex w-full flex-col items-center justify-center gap-8'>
           {searchResult.map((wordData: WordDetails, index: number) => (
             <>
               {index === 0 && (
-                <div className='flex flex-col gap-3'>
-                  <div>Word Searched - {wordData.word}</div>
+                <div key={index} className='flex flex-col gap-3'>
+                  <div className='flex flex-row flex-wrap items-center justify-between gap-4 border-b border-gray-600 pb-12'>
+                    <div className='text-7xl'>{wordData.word}</div>
 
-                  <button
-                    onClick={() =>
+                    <button
+                      onClick={() =>
                         playPhoneticAudio(
                           wordData.phonetics[0]?.audio ??
                             wordData.phonetics[1]?.audio
                         )
                       }
-                  >
-                    <span>
-                      <img src={speakerIcon} alt='speaker icon' />
-                    </span>
+                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-0.5 px-8'
+                    >
+                      <span>
+                        <img
+                          src={speakerIcon}
+                          alt='speaker icon'
+                          className='w-5'
+                        />
+                      </span>
                       <span>
                         {wordData.phonetics[0]?.text ??
                           wordData.phonetics[1]?.text ??
                           'unavailable'}
                       </span>
                     </button>
+                  </div>
 
                   {wordData.meanings.map((meaning, index) => (
                     <div
@@ -235,7 +239,7 @@ const Main = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </>
           ))}
         </div>
       )}
