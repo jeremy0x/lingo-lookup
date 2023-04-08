@@ -162,22 +162,21 @@ const Main = () => {
 
                   <button
                     onClick={() =>
-                      wordData.phonetics[0].audio
-                        ? playAudio(wordData.phonetics[0].audio)
-                        : playAudio(wordData.phonetics[1].audio)
-                    }
+                        playPhoneticAudio(
+                          wordData.phonetics[0]?.audio ??
+                            wordData.phonetics[1]?.audio
+                        )
+                      }
                   >
                     <span>
                       <img src={speakerIcon} alt='speaker icon' />
                     </span>
-                    <span className='pl-2'>
-                      {wordData.phonetics[0] && wordData.phonetics[0].text
-                        ? wordData.phonetics[0].text
-                        : wordData.phonetics[1] && wordData.phonetics[1].text
-                        ? wordData.phonetics[1].text
-                        : '?'}
-                    </span>
-                  </button>
+                      <span>
+                        {wordData.phonetics[0]?.text ??
+                          wordData.phonetics[1]?.text ??
+                          'unavailable'}
+                      </span>
+                    </button>
 
                   {wordData.meanings.map((meaning, index) => (
                     <div
