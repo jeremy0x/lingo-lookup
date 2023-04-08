@@ -14,9 +14,27 @@ html,
 body {
   background-color: $background-color;
   font-family: 'Averia Serif Libre', cursive;
+  font-display: swap;
 }
 
 *::selection {
   color: $background-color;
   background-color: rgb(107 114 128);
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  background-color: $background-color;
+
+  &-thumb {
+    background-color: rgb(107 114 128);
+
+    &:hover {
+      background-color: #fff;
+    }
+
+    &:active {
+      background-color: rgb(107 114 128);
+    }
+  }
 }
