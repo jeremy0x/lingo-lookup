@@ -85,7 +85,7 @@ const Main = () => {
   };
 
   return (
-    <main className='mb-32 flex-grow'>
+    <main className='mb-3.4 flex-grow'>
       {/* search form */}
       <form
         className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl'

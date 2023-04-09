@@ -2,11 +2,11 @@ import 'animate.css';
 
 const Footer = () => {
   return (
-    <footer className='animate__animated animate__fadeIn animate__faster absolute bottom-0 left-0 mt-16 w-full p-4 transition-all sm:p-6'>
+    <footer className='animate__animated animate__fadeIn animate__faster absolute bottom-0 left-0 w-full transition-all'>
       <div className='mx-auto max-w-screen-xl'>
         <hr className='my-6 border-gray-700 sm:mx-auto lg:my-8' />
 
-        <div className='sm:flex sm:items-center sm:justify-between'>
+        <div className='px-4 sm:flex sm:items-center sm:justify-between sm:px-6'>
           <span className='flex flex-wrap justify-center gap-1 text-center text-sm text-gray-400'>
             © 2023 LingoLookup™. Powered by the{' '}
             <a
