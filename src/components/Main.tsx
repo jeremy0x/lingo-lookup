@@ -46,6 +46,7 @@ const Main = () => {
 
   async function getWordDetails(searchQuery: string): Promise<void> {
     setStatus('fetching');
+    setShowAlert(false);
     try {
       const response = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${searchQuery}`
