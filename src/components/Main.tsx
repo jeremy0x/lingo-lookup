@@ -35,6 +35,7 @@ const Main = () => {
   const [userInput, setUserInput] = useState<string>('');
   const [status, setStatus] = useState<string>('');
   const [searchResult, setSearchResult] = useState<WordDetails[]>([]);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const handleSubmit = (event: FormEvent) => {
     if (searchQuery.trim() == '') return;
@@ -71,6 +72,11 @@ const Main = () => {
   };
 
   const playPhoneticAudio = (audioUrl: string) => {
+    if (!audioUrl) {
+      setShowAlert(true);
+      return;
+    }
+    setShowAlert(false);
     const audio = new Audio(audioUrl);
     audio.play();
   };
@@ -164,8 +170,7 @@ const Main = () => {
               {index === 0 && (
                 <div key={index} className='flex w-full flex-col gap-3'>
                   <div className='flex flex-row flex-wrap items-center justify-between gap-4 border-b border-gray-600 pb-12'>
-                    <div className='text-7xl'>{wordData.word}</div>
-
+                    <div className='text-5xl sm:text-7xl'>{wordData.word}</div>
                     <button
                       onClick={() =>
                         playPhoneticAudio(
@@ -173,7 +178,7 @@ const Main = () => {
                             wordData.phonetics[1]?.audio
                         )
                       }
-                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-0.5 px-8'
+                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-0.5 px-10'
                     >
                       <span>
                         <img
@@ -188,6 +193,53 @@ const Main = () => {
                           'unavailable'}
                       </span>
                     </button>
+
+                    {/* alert to show when word pronunciation is unavailable */}
+                    {showAlert && (
+                      <div
+                        id='alert-4'
+                        className='fixed top-4 left-1/2 mb-4 w-11/12  max-w-lg -translate-x-1/2 sm:w-3/4 lg:w-1/2'
+                        role='alert'
+                      >
+                        <div className='animate__animated animate__bounceInDown flex rounded-lg bg-gray-800 p-4 text-blue-500'>
+                          <svg
+                            className='h-5 w-5 flex-shrink-0'
+                            fill='currentColor'
+                            viewBox='0 0 20 20'
+                            xmlns='http://www.w3.org/2000/svg'
+                          >
+                            <path
+                              fill-rule='evenodd'
+                              d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
+                              clip-rule='evenodd'
+                            ></path>
+                          </svg>
+                          <span className='sr-only'>Info</span>
+                          <div className='ml-3 text-sm font-medium'>
+                            Pronunciation unavailable for this word.
+                          </div>
+                          <button
+                            type='button'
+                            className='-mx-1.5 -my-1.5 ml-auto inline-flex h-8 w-8 rounded-lg  bg-gray-800   p-1.5 text-blue-500 hover:bg-gray-700 focus:ring-2 focus:ring-blue-500'
+                            onClick={() => setShowAlert(false)}
+                          >
+                            <span className='sr-only'>Close</span>
+                            <svg
+                              className='h-5 w-5'
+                              fill='currentColor'
+                              viewBox='0 0 20 20'
+                              xmlns='http://www.w3.org/2000/svg'
+                            >
+                              <path
+                                fill-rule='evenodd'
+                                d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                                clip-rule='evenodd'
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {wordData.meanings.map((meaning, index) => (
