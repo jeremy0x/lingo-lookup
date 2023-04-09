@@ -52,6 +52,8 @@ const Main = () => {
       );
       const wordDetails = await response.json();
 
+      setUserInput(searchQuery);
+
       if (wordDetails.title) {
         setStatus('no definitions');
       } else {
@@ -148,11 +150,10 @@ const Main = () => {
 
       {/* invalid search */}
       {status == 'no definitions' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-base leading-relaxed text-gray-400 sm:text-xl'>
-          <p>Sorry pal, we couldn't find definitions for '{userInput}'.</p>
+        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-center text-base leading-relaxed text-gray-400 sm:text-xl'>
           <p>
-            You can try the search again at later time or head to the web
-            instead.
+            Oops! Looks like we've hit a lexical roadblock. No definition found
+            for '{userInput}'.
           </p>
           <img
             src={searchingAnimation}
@@ -178,7 +179,7 @@ const Main = () => {
                             wordData.phonetics[1]?.audio
                         )
                       }
-                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-0.5 px-10'
+                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-1 px-5 sm:px-10'
                     >
                       <span>
                         <img
