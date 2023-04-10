@@ -207,9 +207,9 @@ const Main = (): JSX.Element => {
 
       {/* start: search result */}
       {status == 'definition found' && (
-        <div className='animate__animated animate__fadeIn mx-auto mt-16 flex w-full justify-center'>
+        <div className='animate__animated animate__fadeIn mx-auto mt-16 flex w-full flex-col justify-center'>
           {searchResult.map((wordData: WordDetails, index: number) => (
-            <div key={index} className='w-auto'>
+            <div key={index} className='w-full'>
               {index === 0 && (
                 <div className='flex w-full flex-col'>
                   {/* start: results header */}
