@@ -313,7 +313,7 @@ const Main = (): JSX.Element => {
                   {/* start: word details */}
                   <div className='mx-2 sm:mx-4 lg:mx-8'>
                     <div className='flex flex-col border-r border-l border-b border-t border-gray-500 border-t-gray-400 border-opacity-50 md:flex-row'>
-                      <div className='flex-grow'>
+                      <div className='search-results-left'>
                         {wordData.meanings.map((meaning, index: number) => (
                           <div
                             key={index}
@@ -472,7 +472,7 @@ const Main = (): JSX.Element => {
                       </div>
 
                       {/* start: source & license */}
-                      <div className='flex flex-shrink flex-col border-b border-gray-700'>
+                      <div className='search-results-right flex flex-col border-b border-gray-700'>
                         <div className='border-t-0 border-l border-r border-b border-gray-700 border-opacity-50 p-4 sm:border'>
                           <p className='mb-2'>Source URL</p>
                           <a
