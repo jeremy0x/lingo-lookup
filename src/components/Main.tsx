@@ -211,9 +211,9 @@ const Main = (): JSX.Element => {
           {searchResult.map((wordData: WordDetails, index: number) => (
             <div key={index} className='w-auto'>
               {index === 0 && (
-                // start: results header //
                 <div className='flex w-full flex-col'>
-                  <div className='flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-8 border-b border-gray-700 px-4 pb-12 lg:px-8 xl:px-20'>
+                  {/* start: results header */}
+                  <div className='flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-8 px-4 pb-12 lg:px-8 xl:px-20'>
                     {/* word searched */}
                     <div className='max-w-full break-all text-5xl sm:text-7xl'>
                       {wordData.word.length > 10
@@ -311,140 +311,76 @@ const Main = (): JSX.Element => {
                   {/* end: results header */}
 
                   {/* start: word details */}
-                  <div className='flex flex-col border-r border-l border-b border-gray-500 border-opacity-50 md:flex-row'>
-                    <div className='flex-grow'>
-                      {wordData.meanings.map((meaning, index: number) => (
-                        <div
-                          key={index}
-                          className='flex flex-col border-b border-gray-700 sm:flex-row'
-                        >
-                          {/* part of speech */}
-                          <div className='border-t border-gray-700 border-opacity-50 py-4 pl-4 text-left sm:w-32 sm:pl-0 sm:pr-10 sm:text-right'>
-                            {meaning.partOfSpeech}
-                          </div>
-                          <div className='w-full'>
-                            {meaning.definitions.map(
-                              (definition, index: number) => (
-                                <div
-                                  key={index}
-                                  className='flex flex-col gap-2 border-r border-l border-t border-gray-700 border-opacity-50 p-4'
-                                >
-                                  {/* definition */}
-                                  <div>
-                                    <span className='text-lg sm:text-2xl'>
-                                      {index + 1}
-                                    </span>
-                                    .{' '}
-                                    <span className='text-base sm:text-xl'>
-                                      {definition.definition}
-                                    </span>
-                                  </div>
-
-                                  {/* example usage */}
-                                  {definition.example && (
-                                    <p className='text-gray-500'>
-                                      "{definition.example}"
-                                    </p>
-                                  )}
-
-                                  {/* definition specific synonyms and antonyms */}
-                                  {definition.synonyms.length > 0 && (
-                                    // synonyms //
-                                    <div className='mt-2 flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                      <p className='text-gray-500'>synonyms</p>
-                                      <div>
-                                        {definition.synonyms.map(
-                                          (synonym, index: number) => (
-                                            <span key={index}>
-                                              <span
-                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
-                                                onClick={() =>
-                                                  handleWordClick(synonym)
-                                                }
-                                              >
-                                                {synonym}
+                  <div className='mx-2 sm:mx-4 lg:mx-8'>
+                    <div className='flex flex-col border-r border-l border-b border-t border-gray-500 border-t-gray-400 border-opacity-50 md:flex-row'>
+                      <div className='flex-grow'>
+                        {wordData.meanings.map((meaning, index: number) => (
+                          <div
+                            key={index}
+                            className='mb-16 flex flex-col border-b border-gray-700 sm:mb-0 sm:flex-row'
+                          >
+                            {/* part of speech */}
+                            <div className='border-t-0 border-b border-t-gray-700 border-b-gray-400 border-opacity-50 py-4 pl-4 text-left sm:w-32 sm:border-t sm:border-b-0 sm:pl-0 sm:pr-10 sm:text-right'>
+                              {meaning.partOfSpeech}
+                            </div>
+                            <div className='w-full'>
+                              {meaning.definitions.map(
+                                (definition, index: number) => (
+                                  <div
+                                    key={index}
+                                    className='flex flex-col gap-2 border-r border-l border-t border-gray-700 border-opacity-50 p-4'
+                                  >
+                                    {/* definition */}
+                                    <div>
+                                      <span className='text-lg sm:text-2xl'>
+                                        {index + 1}
+                                      </span>
+                                      .{' '}
+                                      <span className='text-base sm:text-xl'>
+                                        {definition.definition}
+                                      </span>
+                                    </div>
+                                    {/* example usage */}
+                                    {definition.example && (
+                                      <p className='text-gray-500'>
+                                        "{definition.example}"
+                                      </p>
+                                    )}
+                                    {/* definition specific synonyms and antonyms */}
+                                    {definition.synonyms.length > 0 && (
+                                      // synonyms //
+                                      <div className='mt-2 flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                        <p className='text-gray-500'>
+                                          synonyms
+                                        </p>
+                                        <div>
+                                          {definition.synonyms.map(
+                                            (synonym, index: number) => (
+                                              <span key={index}>
+                                                <span
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  onClick={() =>
+                                                    handleWordClick(synonym)
+                                                  }
+                                                >
+                                                  {synonym}
+                                                </span>
+                                                {index !==
+                                                  meaning.synonyms.length -
+                                                    1 && <span>, </span>}
                                               </span>
-                                              {index !==
-                                                meaning.synonyms.length - 1 && (
-                                                <span>, </span>
-                                              )}
-                                            </span>
-                                          )
-                                        )}
+                                            )
+                                          )}
+                                        </div>
                                       </div>
-                                    </div>
-                                  )}
-
-                                  {definition.antonyms.length > 0 && (
-                                    // antonyms //
-                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                      <p>antonyms</p>
-                                      {definition.antonyms.map(
-                                        (antonym, index: number) => (
-                                          <div key={index}>
-                                            <span
-                                              className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
-                                              onClick={() =>
-                                                handleWordClick(antonym)
-                                              }
-                                            >
-                                              {antonym}
-                                            </span>
-                                            {index !==
-                                              meaning.antonyms.length - 1 && (
-                                              <span>, </span>
-                                            )}
-                                          </div>
-                                        )
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              )
-                            )}
-
-                            {/* start: part of speech specific synonyms and antonyms */}
-                            {(meaning.synonyms.length > 0 ||
-                              meaning.antonyms.length > 0) && (
-                              <div className='flex w-full flex-col gap-4 border border-b-0 border-r-gray-700 border-l-gray-700 border-t-gray-500 border-opacity-50 p-4'>
-                                {/* synonyms */}
-                                {meaning.synonyms.length > 0 && (
-                                  <div>
-                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                      <p className='text-gray-500'>synonyms</p>
-                                      <div>
-                                        {meaning.synonyms.map(
-                                          (synonym, index: number) => (
-                                            <span key={index}>
-                                              <span
-                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
-                                                onClick={() =>
-                                                  handleWordClick(synonym)
-                                                }
-                                              >
-                                                {synonym}
-                                              </span>
-                                              {index !==
-                                                meaning.synonyms.length - 1 && (
-                                                <span>, </span>
-                                              )}
-                                            </span>
-                                          )
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* antonyms */}
-                                {meaning.antonyms.length > 0 && (
-                                  <div>
-                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                      <p className='text-gray-500'>antonyms</p>
-                                      <div>
-                                        {meaning.antonyms.map(
+                                    )}
+                                    {definition.antonyms.length > 0 && (
+                                      // antonyms //
+                                      <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                        <p>antonyms</p>
+                                        {definition.antonyms.map(
                                           (antonym, index: number) => (
-                                            <span key={index}>
+                                            <div key={index}>
                                               <span
                                                 className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
                                                 onClick={() =>
@@ -457,49 +393,113 @@ const Main = (): JSX.Element => {
                                                 meaning.antonyms.length - 1 && (
                                                 <span>, </span>
                                               )}
-                                            </span>
+                                            </div>
                                           )
                                         )}
                                       </div>
-                                    </div>
+                                    )}
                                   </div>
-                                )}
-                              </div>
-                            )}
-                            {/* end: part of speech specific synonyms and antonyms */}
+                                )
+                              )}
+                              {/* start: part of speech specific synonyms and antonyms */}
+                              {(meaning.synonyms.length > 0 ||
+                                meaning.antonyms.length > 0) && (
+                                <div className='flex w-full flex-col gap-4 border border-b-0 border-r-gray-700 border-l-gray-700 border-t-gray-500 border-opacity-50 p-4'>
+                                  {/* synonyms */}
+                                  {meaning.synonyms.length > 0 && (
+                                    <div>
+                                      <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                        <p className='text-gray-500'>
+                                          synonyms
+                                        </p>
+                                        <div>
+                                          {meaning.synonyms.map(
+                                            (synonym, index: number) => (
+                                              <span key={index}>
+                                                <span
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  onClick={() =>
+                                                    handleWordClick(synonym)
+                                                  }
+                                                >
+                                                  {synonym}
+                                                </span>
+                                                {index !==
+                                                  meaning.synonyms.length -
+                                                    1 && <span>, </span>}
+                                              </span>
+                                            )
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* antonyms */}
+                                  {meaning.antonyms.length > 0 && (
+                                    <div>
+                                      <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                        <p className='text-gray-500'>
+                                          antonyms
+                                        </p>
+                                        <div>
+                                          {meaning.antonyms.map(
+                                            (antonym, index: number) => (
+                                              <span key={index}>
+                                                <span
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  onClick={() =>
+                                                    handleWordClick(antonym)
+                                                  }
+                                                >
+                                                  {antonym}
+                                                </span>
+                                                {index !==
+                                                  meaning.antonyms.length -
+                                                    1 && <span>, </span>}
+                                              </span>
+                                            )
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              {/* end: part of speech specific synonyms and antonyms */}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
 
-                    {/* start: source & license */}
-                    <div className='flex flex-shrink flex-col border-b border-gray-700'>
-                      <div className='border border-gray-700 border-opacity-50 p-4'>
-                        <p className='mb-2'>Source URL</p>
-                        <a
-                          href={wordData.sourceUrls[0]}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                          className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-500'
-                        >
-                          {wordData.sourceUrls[0].length > 40
-                            ? `${wordData.sourceUrls[0].slice(0, 40)}...`
-                            : wordData.sourceUrls[0]}
-                        </a>
+                      {/* start: source & license */}
+                      <div className='flex flex-shrink flex-col border-b border-gray-700'>
+                        <div className='border-t-0 border-l border-r border-b border-gray-700 border-opacity-50 p-4 sm:border'>
+                          <p className='mb-2'>Source URL</p>
+                          <a
+                            href={wordData.sourceUrls[0]}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                          >
+                            {wordData.sourceUrls[0].length > 40
+                              ? `${wordData.sourceUrls[0].slice(0, 40)}...`
+                              : wordData.sourceUrls[0]}
+                          </a>
+                        </div>
+                        <div className='border-b-0 border-l border-r border-gray-700 border-opacity-50 p-4 md:border-b'>
+                          <p className='mb-2'>License</p>
+                          <a
+                            href={wordData.license.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                          >
+                            {wordData.license.name}
+                          </a>
+                        </div>
                       </div>
-                      <div className='border-b-0 border-l border-r border-gray-700 border-opacity-50 p-4 md:border-b'>
-                        <p className='mb-2'>License</p>
-                        <a
-                          href={wordData.license.url}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                          className='text-blue-400 transition-all hover:text-white focus:text-gray-500'
-                        >
-                          {wordData.license.name}
-                        </a>
-                      </div>
+                      {/* end: source & license */}
                     </div>
-                    {/* end: source & license */}
                   </div>
                   {/* end: word details */}
                 </div>

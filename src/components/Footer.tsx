@@ -2,8 +2,8 @@ import 'animate.css';
 
 const Footer = () => {
   return (
-    <footer className='animate__animated animate__fadeIn animate__faster absolute bottom-0 left-0 w-full transition-all'>
-      <div className='container mx-auto'>
+    <footer className='animate__animated animate__fadeIn animate__faster container absolute bottom-0 left-0 mx-auto w-full transition-all'>
+      <div className='mx-2 sm:mx-4 lg:mx-8'>
         {/* <hr className='mb-6 border-gray-700 sm:mx-auto lg:mb-8' /> */}
 
         <div className='px-4 pb-4 sm:flex sm:items-center sm:justify-between sm:px-6 sm:pb-6'>
