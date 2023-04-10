@@ -43,6 +43,7 @@ const Main = (): JSX.Element => {
   const [status, setStatus] = useState<string>('');
   const [searchResult, setSearchResult] = useState<WordDetails[]>([]);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   /**
    * Handles the submission of a search query form.
@@ -101,20 +102,28 @@ const Main = (): JSX.Element => {
    * @returns {void}
    */
   const playPhoneticAudio = (audioUrl: string): void => {
+    setIsPlaying(true);
     if (!audioUrl) {
       setShowAlert(true);
+      setTimeout(() => {
+        setIsPlaying(false);
+      }, 2000);
       return;
     }
     setShowAlert(false);
     const audio = new Audio(audioUrl);
     audio.play();
+
+    setTimeout(() => {
+      setIsPlaying(false);
+    }, 2000);
   };
 
   return (
-    <main className='mb-3.4 flex-grow'>
-      {/* search form */}
+    <main className='mb-40 flex-grow sm:mb-20'>
+      {/* start: search form */}
       <form
-        className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl'
+        className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl px-4'
         onSubmit={handleSubmit}
       >
         <label
@@ -124,6 +133,7 @@ const Main = (): JSX.Element => {
           Search
         </label>
         <div className='relative'>
+          {/* search icon */}
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
             <svg
               aria-hidden='true'
@@ -141,16 +151,20 @@ const Main = (): JSX.Element => {
               ></path>
             </svg>
           </div>
+
+          {/* input field */}
           <input
             type='search'
             id='search'
-            className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-3 pl-10 text-base text-gray-300 placeholder-gray-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-blue-500'
+            className='block w-full rounded-lg border border-gray-600 bg-gray-700 py-3 pr-24 pl-10 text-gray-300 placeholder-gray-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-blue-500'
             placeholder='Search for a word...'
             required
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             autoComplete='off'
           />
+
+          {/* search button */}
           <button
             type='submit'
             className='absolute right-2.5 bottom-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800'
@@ -159,6 +173,7 @@ const Main = (): JSX.Element => {
           </button>
         </div>
       </form>
+      {/* start: search form */}
 
       {/* loader */}
       {status == 'fetching' && (
@@ -167,7 +182,7 @@ const Main = (): JSX.Element => {
         </div>
       )}
 
-      {/* error message */}
+      {/* error */}
       {status == 'error' && (
         <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-xl text-gray-400'>
           <img src={errorAnimation} alt='error animation' className='w-36' />
@@ -175,9 +190,9 @@ const Main = (): JSX.Element => {
         </div>
       )}
 
-      {/* invalid search */}
+      {/* invalid search || word definition unavailable */}
       {status == 'no definitions' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-center text-base leading-relaxed text-gray-400 sm:text-xl'>
+        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-center leading-relaxed text-gray-400 sm:text-xl'>
           <p>
             Oops! Looks like we've hit a lexical roadblock. No definition found
             for '{userInput}'.
@@ -190,30 +205,54 @@ const Main = (): JSX.Element => {
         </div>
       )}
 
-      {/* display results */}
+      {/* start: search result */}
       {status == 'definition found' && (
-        <div className='animate__animated animate__fadeIn mt-16 flex w-full flex-col items-center justify-center gap-8'>
+        <div className='animate__animated animate__fadeIn mx-auto mt-16 flex w-full justify-center'>
           {searchResult.map((wordData: WordDetails, index: number) => (
-            <>
+            <div key={index} className='w-auto'>
               {index === 0 && (
-                <div key={index} className='flex w-full flex-col gap-3'>
-                  <div className='flex flex-row flex-wrap items-center justify-between gap-4 border-b border-gray-600 pb-12'>
-                    <div className='text-5xl sm:text-7xl'>{wordData.word}</div>
+                // start: results header //
+                <div className='flex w-full flex-col'>
+                  <div className='flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-8 border-b border-gray-700 px-4 pb-12 lg:px-8 xl:px-20'>
+                    {/* word searched */}
+                    <div className='max-w-full break-all text-5xl sm:text-7xl'>
+                      {wordData.word.length > 10
+                        ? `${wordData.word.slice(0, 10)}...`
+                        : wordData.word}
+                    </div>
+
+                    {/* pronunciation button */}
                     <button
+                      type='button'
                       onClick={() =>
                         playPhoneticAudio(
                           wordData.phonetics[0]?.audio ??
                             wordData.phonetics[1]?.audio
                         )
                       }
-                      className='flex flex-row items-center justify-center gap-4 rounded-2xl border border-gray-600 py-1 px-5 sm:px-10'
+                      className='flex w-fit flex-row items-center justify-center gap-4 rounded-full border border-gray-700 border-opacity-50 py-2 px-5 sm:px-14'
                     >
                       <span>
-                        <img
-                          src={speakerIcon}
-                          alt='speaker icon'
-                          className='w-5'
-                        />
+                        {isPlaying ? (
+                          // speaker icon while playing
+                          <img
+                            src={speakerIcon}
+                            alt='speaker icon'
+                            className='animate__animated animate__fadeIn w-5'
+                          />
+                        ) : (
+                          // play icon
+                          <svg
+                            className='animate__animated animate__fadeIn w-5'
+                            role='img'
+                            viewBox='0 0 512 512'
+                          >
+                            <path
+                              fill='currentColor'
+                              d='M512 256c0 141.4-114.6 256-256 256S0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z'
+                            ></path>
+                          </svg>
+                        )}
                       </span>
                       <span>
                         {wordData.phonetics[0]?.text ??
@@ -222,7 +261,7 @@ const Main = (): JSX.Element => {
                       </span>
                     </button>
 
-                    {/* alert to show when word pronunciation is unavailable */}
+                    {/* start: alert when word pronunciation is unavailable */}
                     {showAlert && (
                       <div
                         id='alert-4'
@@ -244,7 +283,7 @@ const Main = (): JSX.Element => {
                           </svg>
                           <span className='sr-only'>Info</span>
                           <div className='ml-3 text-sm font-medium'>
-                            Pronunciation unavailable for this word.
+                            Pronunciation not available.
                           </div>
                           <button
                             type='button'
@@ -269,128 +308,207 @@ const Main = (): JSX.Element => {
                       </div>
                     )}
                   </div>
+                  {/* end: results header */}
 
-                  {wordData.meanings.map((meaning, index) => (
-                    <div
-                      key={index}
-                      className='my-8 flex flex-col items-start justify-start'
-                    >
-                      {/* part of speech */}
-                      <div>Part of speech - {meaning.partOfSpeech}</div>
-                      {meaning.definitions.map((definition, index) => (
-                        // Definition
-                        <div key={index} className='my-4'>
-                          <div>
-                            {index + 1}. {definition.definition}
+                  {/* start: word details */}
+                  <div className='flex flex-col border-r border-l border-b border-gray-500 border-opacity-50 md:flex-row'>
+                    <div className='flex-grow'>
+                      {wordData.meanings.map((meaning, index: number) => (
+                        <div
+                          key={index}
+                          className='flex flex-col border-b border-gray-700 sm:flex-row'
+                        >
+                          {/* part of speech */}
+                          <div className='border-t border-gray-700 border-opacity-50 py-4 pl-4 text-left sm:w-32 sm:pl-0 sm:pr-10 sm:text-right'>
+                            {meaning.partOfSpeech}
                           </div>
+                          <div className='w-full'>
+                            {meaning.definitions.map(
+                              (definition, index: number) => (
+                                <div
+                                  key={index}
+                                  className='flex flex-col gap-2 border-r border-l border-t border-gray-700 border-opacity-50 p-4'
+                                >
+                                  {/* definition */}
+                                  <div>
+                                    <span className='text-lg sm:text-2xl'>
+                                      {index + 1}
+                                    </span>
+                                    .{' '}
+                                    <span className='text-base sm:text-xl'>
+                                      {definition.definition}
+                                    </span>
+                                  </div>
 
-                          {/* Synonyms */}
-                          {definition.synonyms.length > 0 && (
-                            <p>
-                              Synonyms:{' '}
-                              {definition.synonyms.map((synonym, index) => (
-                                <>
-                                  <span
-                                    key={index}
-                                    className='cursor-pointer text-blue-500'
-                                    onClick={() => handleWordClick(synonym)}
-                                  >
-                                    {synonym}
-                                  </span>
-                                  <span>, </span>
-                                </>
-                              ))}
-                            </p>
-                          )}
+                                  {/* example usage */}
+                                  {definition.example && (
+                                    <p className='text-gray-500'>
+                                      "{definition.example}"
+                                    </p>
+                                  )}
 
-                          {/* Antonyms */}
-                          {definition.antonyms.length > 0 && (
-                            <p>
-                              Antonyms:{' '}
-                              {definition.antonyms.map((antonym, index) => (
-                                <>
-                                  <span
-                                    key={index}
-                                    className='cursor-pointer text-blue-500'
-                                    onClick={() => handleWordClick(antonym)}
-                                  >
-                                    {antonym}
-                                  </span>
-                                  <span>, </span>
-                                </>
-                              ))}
-                            </p>
-                          )}
+                                  {/* definition specific synonyms and antonyms */}
+                                  {definition.synonyms.length > 0 && (
+                                    // synonyms //
+                                    <div className='mt-2 flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                      <p className='text-gray-500'>synonyms</p>
+                                      <div>
+                                        {definition.synonyms.map(
+                                          (synonym, index: number) => (
+                                            <span key={index}>
+                                              <span
+                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                onClick={() =>
+                                                  handleWordClick(synonym)
+                                                }
+                                              >
+                                                {synonym}
+                                              </span>
+                                              {index !==
+                                                meaning.synonyms.length - 1 && (
+                                                <span>, </span>
+                                              )}
+                                            </span>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
 
-                          {/* Example */}
-                          {definition.example && (
-                            <p className='text-gray-500'>
-                              "{definition.example}"
-                            </p>
-                          )}
+                                  {definition.antonyms.length > 0 && (
+                                    // antonyms //
+                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                      <p>antonyms</p>
+                                      {definition.antonyms.map(
+                                        (antonym, index: number) => (
+                                          <div key={index}>
+                                            <span
+                                              className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                              onClick={() =>
+                                                handleWordClick(antonym)
+                                              }
+                                            >
+                                              {antonym}
+                                            </span>
+                                            {index !==
+                                              meaning.antonyms.length - 1 && (
+                                              <span>, </span>
+                                            )}
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            )}
+
+                            {/* start: part of speech specific synonyms and antonyms */}
+                            {(meaning.synonyms.length > 0 ||
+                              meaning.antonyms.length > 0) && (
+                              <div className='flex w-full flex-col gap-4 border border-b-0 border-r-gray-700 border-l-gray-700 border-t-gray-500 border-opacity-50 p-4'>
+                                {/* synonyms */}
+                                {meaning.synonyms.length > 0 && (
+                                  <div>
+                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                      <p className='text-gray-500'>synonyms</p>
+                                      <div>
+                                        {meaning.synonyms.map(
+                                          (synonym, index: number) => (
+                                            <span key={index}>
+                                              <span
+                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                onClick={() =>
+                                                  handleWordClick(synonym)
+                                                }
+                                              >
+                                                {synonym}
+                                              </span>
+                                              {index !==
+                                                meaning.synonyms.length - 1 && (
+                                                <span>, </span>
+                                              )}
+                                            </span>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* antonyms */}
+                                {meaning.antonyms.length > 0 && (
+                                  <div>
+                                    <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
+                                      <p className='text-gray-500'>antonyms</p>
+                                      <div>
+                                        {meaning.antonyms.map(
+                                          (antonym, index: number) => (
+                                            <span key={index}>
+                                              <span
+                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                onClick={() =>
+                                                  handleWordClick(antonym)
+                                                }
+                                              >
+                                                {antonym}
+                                              </span>
+                                              {index !==
+                                                meaning.antonyms.length - 1 && (
+                                                <span>, </span>
+                                              )}
+                                            </span>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {/* end: part of speech specific synonyms and antonyms */}
+                          </div>
                         </div>
                       ))}
-
-                      {/* Synonyms */}
-                      {meaning.synonyms.length > 0 && (
-                        <div>
-                          <div className='text-gray-500'>
-                            Synonyms:{' '}
-                            {meaning.synonyms.map((synonym, index) => (
-                              <>
-                                <span
-                                  key={index}
-                                  className='cursor-pointer text-blue-500'
-                                  onClick={() => handleWordClick(synonym)}
-                                >
-                                  {synonym}
-                                </span>
-                                <span>, </span>
-                              </>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Antonyms */}
-                      {meaning.antonyms.length > 0 && (
-                        <div>
-                          <div className='text-gray-500'>
-                            Antonyms:{' '}
-                            {meaning.antonyms.map((antonym, index) => (
-                              <>
-                                <span
-                                  key={index}
-                                  className='cursor-pointer text-blue-500'
-                                  onClick={() => handleWordClick(antonym)}
-                                >
-                                  {antonym}
-                                </span>
-                                <span>, </span>
-                              </>
-                            ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
-                  ))}
-                  <div>Source URL - {wordData.sourceUrls[0]}</div>
-                  <div>
-                    License:{' '}
-                    <a
-                      href={wordData.license.url}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      {wordData.license.name}
-                    </a>
+
+                    {/* start: source & license */}
+                    <div className='flex flex-shrink flex-col border-b border-gray-700'>
+                      <div className='border border-gray-700 border-opacity-50 p-4'>
+                        <p className='mb-2'>Source URL</p>
+                        <a
+                          href={wordData.sourceUrls[0]}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                        >
+                          {wordData.sourceUrls[0].length > 40
+                            ? `${wordData.sourceUrls[0].slice(0, 40)}...`
+                            : wordData.sourceUrls[0]}
+                        </a>
+                      </div>
+                      <div className='border-b-0 border-l border-r border-gray-700 border-opacity-50 p-4 md:border-b'>
+                        <p className='mb-2'>License</p>
+                        <a
+                          href={wordData.license.url}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                        >
+                          {wordData.license.name}
+                        </a>
+                      </div>
+                    </div>
+                    {/* end: source & license */}
                   </div>
+                  {/* end: word details */}
                 </div>
               )}
-            </>
+            </div>
           ))}
         </div>
       )}
+      {/* start: search result */}
     </main>
   );
 };
