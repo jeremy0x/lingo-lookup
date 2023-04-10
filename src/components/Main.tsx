@@ -5,6 +5,9 @@ import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
 import speakerIcon from '../assets/speaker-icon.svg';
 
+/**
+  Interface describing the structure of word details returned from a dictionary API.
+*/
 interface WordDetails {
   title?: string;
   word: string;
@@ -30,20 +33,34 @@ interface WordDetails {
   };
 }
 
-const Main = () => {
+/**
+ * A component for searching and displaying dictionary definitions for words.
+ * @returns {JSX.Element} The rendered component.
+ */
+const Main = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [status, setStatus] = useState<string>('');
   const [searchResult, setSearchResult] = useState<WordDetails[]>([]);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  /**
+   * Handles the submission of a search query form.
+   * @param {FormEvent} event - The form submission event.
+   * @returns {void}
+   */
+  const handleSubmit = (event: FormEvent): void => {
     if (searchQuery.trim() == '') return;
     event.preventDefault();
     setUserInput(searchQuery);
     getWordDetails(searchQuery);
   };
 
+  /**
+   * Retrieves word details from a dictionary API for the specified search query.
+   * @param {string} searchQuery - The word or phrase to search for.
+   * @returns {Promise<void>}
+   */
   async function getWordDetails(searchQuery: string): Promise<void> {
     setStatus('fetching');
     setShowAlert(false);
@@ -67,14 +84,23 @@ const Main = () => {
     }
   }
 
-  // function to handle clicking on a synonym or an antonym
-  const handleWordClick = async (word: string) => {
+  /**
+   * Handles a click on a word in the search results.
+   * @param {string} word - The word that was clicked.
+   * @returns {Promise<void>}
+   */
+  const handleWordClick = async (word: string): Promise<void> => {
     setSearchQuery(word);
     getWordDetails(word);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const playPhoneticAudio = (audioUrl: string) => {
+  /**
+   * Plays a phonetic audio file from the specified URL.
+   * @param {string} audioUrl - The URL of the audio file to play.
+   * @returns {void}
+   */
+  const playPhoneticAudio = (audioUrl: string): void => {
     if (!audioUrl) {
       setShowAlert(true);
       return;
