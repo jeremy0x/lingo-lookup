@@ -320,7 +320,7 @@ const Main = (): JSX.Element => {
                             className='mb-16 flex flex-col border-b border-gray-700 sm:mb-0 sm:flex-row'
                           >
                             {/* part of speech */}
-                            <div className='border-t-0 border-b border-t-gray-700 border-b-gray-400 border-opacity-50 py-4 pl-4 text-left sm:w-32 sm:border-t sm:border-b-0 sm:pl-0 sm:pr-10 sm:text-right'>
+                            <div className='border-t-0 border-b border-t-gray-700 border-b-gray-400 border-opacity-50 py-4 pl-4 text-left sm:w-40 sm:border-t sm:border-b-0 sm:pl-0 sm:pr-10 sm:text-right'>
                               {meaning.partOfSpeech}
                             </div>
                             <div className='w-full'>
