@@ -5,8 +5,8 @@ import Main from './components/Main';
 
 function App() {
   return (
-    <div className='relative flex flex-col min-h-screen text-gray-200'>
-      <div className='container mx-auto px-4'>
+    <div className='relative flex min-h-screen flex-col text-gray-200'>
+      <div className='container mx-auto'>
         <Header />
         <Main />
         <Footer />
