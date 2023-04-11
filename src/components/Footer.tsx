@@ -7,7 +7,7 @@ const Footer = () => {
         <div className='mx-2 sm:mx-4 lg:mx-8'>
           {/* <hr className='mb-6 border-gray-700 sm:mx-auto lg:mb-8' /> */}
           <div className='px-4 pb-4 sm:flex sm:items-center sm:justify-between sm:px-6 sm:pb-6'>
-            <span className='flex flex-wrap justify-center gap-1 text-center text-sm text-gray-400'>
+            <span className='flex flex-wrap justify-center gap-1 text-center text-base text-gray-400'>
               © 2023 LingoLookup™. Powered by the{' '}
               <a
                 href='https://dictionaryapi.dev'
