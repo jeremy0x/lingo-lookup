@@ -1,4 +1,4 @@
-# LingoLookup
+# LingoLookup — Dictionary Web App
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/994f48f5-854e-4cdc-91c9-ec4f65b20d85/deploy-status)](https://app.netlify.com/sites/lingolookup/deploys)
 
