@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
 *,
 *::before,
@@ -13,7 +13,7 @@ $background-color: rgb(2 6 23);
 html,
 body {
   background-color: $background-color;
-  font-family: 'Averia Serif Libre', cursive;
+  font-family: 'Cormorant Garamond', serif;
   font-display: swap;
 }
 
