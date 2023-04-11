@@ -376,24 +376,25 @@ const Main = (): JSX.Element => {
                                         <p className='font-semibold text-gray-400'>
                                           antonyms
                                         </p>
-                                        {definition.antonyms.map(
-                                          (antonym, index: number) => (
-                                            <p key={index}>
-                                              <span
-                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
-                                                onClick={() =>
-                                                  handleWordClick(antonym)
-                                                }
-                                              >
-                                                {antonym}
+                                        <p>
+                                          {definition.antonyms.map(
+                                            (antonym, index: number) => (
+                                              <span key={index}>
+                                                <span
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
+                                                  onClick={() =>
+                                                    handleWordClick(antonym)
+                                                  }
+                                                >
+                                                  {antonym}
+                                                </span>
+                                                {index !==
+                                                  meaning.antonyms.length -
+                                                    1 && <span>, </span>}
                                               </span>
-                                              {index !==
-                                                meaning.antonyms.length - 1 && (
-                                                <span>, </span>
-                                              )}
-                                            </p>
-                                          )
-                                        )}
+                                            )
+                                          )}
+                                        </p>
                                       </div>
                                     )}
                                   </div>
