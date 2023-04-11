@@ -230,7 +230,7 @@ const Main = (): JSX.Element => {
                             wordData.phonetics[1]?.audio
                         )
                       }
-                      className='flex w-fit flex-row items-center justify-center gap-4 rounded-full border border-gray-700 border-opacity-50 py-2 px-5 sm:px-14'
+                      className='flex w-fit flex-row items-center justify-center gap-4 rounded-full border border-gray-700 border-opacity-50 py-2 px-5 transition-all hover:bg-gray-700 hover:bg-opacity-50 sm:px-14'
                     >
                       <span>
                         {isPlaying ? (
