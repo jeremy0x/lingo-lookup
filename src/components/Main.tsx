@@ -166,7 +166,7 @@ const Main = (): JSX.Element => {
           {/* search button */}
           <button
             type='submit'
-            className='absolute right-2.5 bottom-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800'
+            className='absolute right-2.5 bottom-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-800'
           >
             Search
           </button>
@@ -281,7 +281,7 @@ const Main = (): JSX.Element => {
                             ></path>
                           </svg>
                           <span className='sr-only'>Info</span>
-                          <div className='ml-3 text-sm font-medium'>
+                          <div className='ml-3 text-base font-medium'>
                             Pronunciation not available.
                           </div>
                           <button
@@ -319,7 +319,7 @@ const Main = (): JSX.Element => {
                             className='mb-16 flex flex-col border-b border-gray-700 sm:mb-0 sm:flex-row'
                           >
                             {/* part of speech */}
-                            <div className='border-t-0 border-b border-t-gray-700 border-b-gray-400 border-opacity-50 py-4 pl-4 text-left sm:w-40 sm:border-t sm:border-b-0 sm:pl-0 sm:pr-10 sm:text-right'>
+                            <div className='border-t-0 border-b border-t-gray-700 border-b-gray-400 border-opacity-50 py-4 pl-4 text-left text-xl sm:w-40 sm:border-t sm:border-b-0 sm:pl-0 sm:pr-10 sm:text-right'>
                               {meaning.partOfSpeech}
                             </div>
                             <div className='w-full'>
@@ -330,34 +330,30 @@ const Main = (): JSX.Element => {
                                     className='flex flex-col gap-2 border-r border-l border-t border-gray-700 border-opacity-50 p-4'
                                   >
                                     {/* definition */}
-                                    <div>
-                                      <span className='text-lg sm:text-2xl'>
-                                        {index + 1}
+                                    <p>
+                                      <span className='text-lg sm:text-xl'>
+                                        {index + 1}. {definition.definition}
                                       </span>
-                                      .{' '}
-                                      <span className='text-base sm:text-xl'>
-                                        {definition.definition}
-                                      </span>
-                                    </div>
+                                    </p>
                                     {/* example usage */}
                                     {definition.example && (
-                                      <p className='text-gray-500'>
-                                        "{definition.example}"
+                                      <p className='text-base font-semibold text-gray-400 sm:text-lg'>
+                                        “{definition.example}”
                                       </p>
                                     )}
                                     {/* definition specific synonyms and antonyms */}
                                     {definition.synonyms.length > 0 && (
                                       // synonyms //
                                       <div className='mt-2 flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                        <p className='text-gray-500'>
+                                        <p className='font-semibold text-gray-400'>
                                           synonyms
                                         </p>
-                                        <div>
+                                        <p>
                                           {definition.synonyms.map(
                                             (synonym, index: number) => (
                                               <span key={index}>
                                                 <span
-                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
                                                   onClick={() =>
                                                     handleWordClick(synonym)
                                                   }
@@ -370,18 +366,20 @@ const Main = (): JSX.Element => {
                                               </span>
                                             )
                                           )}
-                                        </div>
+                                        </p>
                                       </div>
                                     )}
                                     {definition.antonyms.length > 0 && (
                                       // antonyms //
                                       <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                        <p>antonyms</p>
+                                        <p className='font-semibold text-gray-400'>
+                                          antonyms
+                                        </p>
                                         {definition.antonyms.map(
                                           (antonym, index: number) => (
-                                            <div key={index}>
+                                            <p key={index}>
                                               <span
-                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
                                                 onClick={() =>
                                                   handleWordClick(antonym)
                                                 }
@@ -392,7 +390,7 @@ const Main = (): JSX.Element => {
                                                 meaning.antonyms.length - 1 && (
                                                 <span>, </span>
                                               )}
-                                            </div>
+                                            </p>
                                           )
                                         )}
                                       </div>
@@ -408,15 +406,15 @@ const Main = (): JSX.Element => {
                                   {meaning.synonyms.length > 0 && (
                                     <div>
                                       <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                        <p className='text-gray-500'>
+                                        <p className='font-semibold text-gray-400'>
                                           synonyms
                                         </p>
-                                        <div>
+                                        <p>
                                           {meaning.synonyms.map(
                                             (synonym, index: number) => (
                                               <span key={index}>
                                                 <span
-                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
                                                   onClick={() =>
                                                     handleWordClick(synonym)
                                                   }
@@ -429,7 +427,7 @@ const Main = (): JSX.Element => {
                                               </span>
                                             )
                                           )}
-                                        </div>
+                                        </p>
                                       </div>
                                     </div>
                                   )}
@@ -437,15 +435,15 @@ const Main = (): JSX.Element => {
                                   {meaning.antonyms.length > 0 && (
                                     <div>
                                       <div className='flex flex-col gap-1 sm:flex-row sm:gap-2'>
-                                        <p className='text-gray-500'>
+                                        <p className='font-semibold text-gray-400'>
                                           antonyms
                                         </p>
-                                        <div>
+                                        <p>
                                           {meaning.antonyms.map(
                                             (antonym, index: number) => (
                                               <span key={index}>
                                                 <span
-                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                                                  className='cursor-pointer text-blue-400 transition-all hover:text-white focus:text-gray-400'
                                                   onClick={() =>
                                                     handleWordClick(antonym)
                                                   }
@@ -458,7 +456,7 @@ const Main = (): JSX.Element => {
                                               </span>
                                             )
                                           )}
-                                        </div>
+                                        </p>
                                       </div>
                                     </div>
                                   )}
@@ -473,12 +471,12 @@ const Main = (): JSX.Element => {
                       {/* start: source & license */}
                       <div className='search-results-right flex flex-col border-b border-gray-700'>
                         <div className='border-t-0 border-l border-r border-b border-gray-700 border-opacity-50 p-4 sm:border'>
-                          <p className='mb-2'>Source URL</p>
+                          <p className='mb-2 text-xl'>Source URL</p>
                           <a
                             href={wordData.sourceUrls[0]}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                            className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-400'
                           >
                             {wordData.sourceUrls[0].length > 40
                               ? `${wordData.sourceUrls[0].slice(0, 40)}...`
@@ -486,12 +484,12 @@ const Main = (): JSX.Element => {
                           </a>
                         </div>
                         <div className='border-b-0 border-l border-r border-gray-700 border-opacity-50 p-4 md:border-b'>
-                          <p className='mb-2'>License</p>
+                          <p className='mb-2 text-xl'>License</p>
                           <a
                             href={wordData.license.url}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='text-blue-400 transition-all hover:text-white focus:text-gray-500'
+                            className='text-blue-400 transition-all hover:text-white focus:text-gray-400'
                           >
                             {wordData.license.name}
                           </a>

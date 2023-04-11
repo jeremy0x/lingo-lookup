@@ -5,7 +5,7 @@ import Main from './components/Main';
 
 function App() {
   return (
-    <div className='relative flex min-h-screen flex-col text-gray-200'>
+    <div className='relative flex min-h-screen flex-col bg-gray-900 text-white'>
       <div className='container mx-auto'>
         <Header />
         <Main />

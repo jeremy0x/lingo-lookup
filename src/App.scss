@@ -8,18 +8,17 @@
   box-sizing: border-box;
 }
 
-$background-color: rgb(2 6 23);
+$background-color: rgb(17 24 39);
 
 html,
 body {
-  background-color: $background-color;
   font-family: 'Cormorant Garamond', serif;
   font-display: swap;
 }
 
 *::selection {
   color: $background-color;
-  background-color: rgb(107 114 128);
+  background-color: rgb(209 213 219);
 }
 
 *::-webkit-scrollbar {
