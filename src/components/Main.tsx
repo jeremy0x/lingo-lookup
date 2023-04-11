@@ -161,6 +161,7 @@ const Main = (): JSX.Element => {
             required
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            autoComplete='off'
           />
 
           {/* search button */}
