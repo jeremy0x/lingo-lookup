@@ -120,7 +120,7 @@ const Main = (): JSX.Element => {
   };
 
   return (
-    <main className='mb-40 flex-grow sm:mb-20'>
+    <main className='mb-40 flex-grow'>
       {/* start: search form */}
       <form
         className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl px-4'
