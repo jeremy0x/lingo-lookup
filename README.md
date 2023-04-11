@@ -4,6 +4,10 @@
 
 LingoLookup is a simple and easy-to-use dictionary app that lets you quickly search for word definitions, synonyms, and antonyms. Try it out at [lingolookup.netlify.app](https://lingolookup.netlify.app).
 
+## Screenshot
+
+![LingoLookup screenshot](./src/assets/lingolookup-screenshot.png)
+
 ## Features
 
 * Search for word definitions, synonyms, and antonyms.
