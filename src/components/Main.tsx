@@ -4,6 +4,10 @@ import loader from '../assets/animated-search-icon.gif';
 import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
 import speakerIcon from '../assets/speaker-icon.svg';
+import playIcon from '../assets/play.svg'
+import searchIcon from '../assets/search-icon.svg'
+import infoIcon from "../assets/info-icon.svg";
+import closeIcon from "../assets/close-icon.svg";
 
 /**
   Interface describing the structure of word details returned from a dictionary API.
@@ -173,21 +177,7 @@ const Main = (): JSX.Element => {
         <div className='relative'>
           {/* search icon */}
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
-            <svg
-              aria-hidden='true'
-              className='h-5 w-5 text-gray-500'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-              ></path>
-            </svg>
+            <img src={searchIcon} alt="search icon" />
           </div>
 
           {/* input field */}
@@ -278,16 +268,7 @@ const Main = (): JSX.Element => {
                           />
                         ) : (
                           // play icon
-                          <svg
-                            className='animate__animated animate__fadeIn w-5'
-                            role='img'
-                            viewBox='0 0 512 512'
-                          >
-                            <path
-                              fill='currentColor'
-                              d='M512 256c0 141.4-114.6 256-256 256S0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z'
-                            ></path>
-                          </svg>
+                          <img src={playIcon} alt="play icon" className='animate__animated animate__fadeIn w-5' />
                         )}
                       </span>
                       <span>
@@ -303,18 +284,7 @@ const Main = (): JSX.Element => {
                         role='alert'
                       >
                         <div className='animate__animated animate__bounceInDown flex rounded-lg bg-gray-800 p-4 text-blue-400'>
-                          <svg
-                            className='h-5 w-5 flex-shrink-0'
-                            fill='currentColor'
-                            viewBox='0 0 20 20'
-                            xmlns='http://www.w3.org/2000/svg'
-                          >
-                            <path
-                              fillRule='evenodd'
-                              d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
-                              clipRule='evenodd'
-                            ></path>
-                          </svg>
+                          <img src={infoIcon} alt="info icon" className='h-5 w-5 flex-shrink-0'/>
                           <span className='sr-only'>Info</span>
                           <div className='ml-3 text-base font-medium'>
                             Pronunciation not available.
@@ -325,18 +295,7 @@ const Main = (): JSX.Element => {
                             onClick={() => setShowAlert(false)}
                           >
                             <span className='sr-only'>Close</span>
-                            <svg
-                              className='h-5 w-5'
-                              fill='currentColor'
-                              viewBox='0 0 20 20'
-                              xmlns='http://www.w3.org/2000/svg'
-                            >
-                              <path
-                                fillRule='evenodd'
-                                d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                                clipRule='evenodd'
-                              ></path>
-                            </svg>
+                            <img src={closeIcon} alt="close icon" className='h-5 w-5' />
                           </button>
                         </div>
                       </div>
