@@ -119,6 +119,44 @@ const Main = (): JSX.Element => {
     }, 2000);
   };
 
+  /**
+   * Returns a truncated version of a word if it exceeds 10 characters.
+   * @param {WordDetails} wordData - The word data object.
+   * @param {string} wordData.word - The word to be shortened.
+   * @returns {string} The formatted word.
+   */
+  const handleWordLength = (wordData: WordDetails): string => {
+    return wordData.word
+      ? wordData.word.length > 10
+        ? `${wordData.word.slice(0, 10)}...`
+        : wordData.word
+      : '';
+  };
+
+  /**
+   * Returns a shortened version of a URL if it exceeds 40 characters.
+   * @param {WordDetails} wordData - The word data object.
+   * @returns {string} The formatted URL.
+   */
+  const handleUrlLength = (wordData: WordDetails): string => {
+    return wordData.sourceUrls
+      ? wordData.sourceUrls[0].length > 40
+        ? `${wordData.sourceUrls[0].slice(0, 40)}...`
+        : wordData.sourceUrls[0]
+      : '';
+  }
+
+  /**
+   * Returns the phonetic text for a word, or a message indicating that the phonetic text is unavailable.
+   * @param {WordDetails} wordData - The word data object. 
+   * @returns The phonetics text.
+   */
+  const getPhoneticsText = (wordData: WordDetails): string => {
+    return wordData.phonetics[0]?.text ??
+    wordData.phonetics[1]?.text ??
+      'N/A';
+  }
+
   return (
     <main className='mb-40 flex-grow'>
       {/* start: search form */}
@@ -216,9 +254,7 @@ const Main = (): JSX.Element => {
                   <div className='flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-8 px-4 pb-12 lg:px-8 xl:px-20'>
                     {/* word searched */}
                     <div className='max-w-full break-all text-5xl sm:text-7xl'>
-                      {wordData.word.length > 10
-                        ? `${wordData.word.slice(0, 10)}...`
-                        : wordData.word}
+                      {handleWordLength(wordData)}
                     </div>
 
                     {/* pronunciation button */}
@@ -255,9 +291,7 @@ const Main = (): JSX.Element => {
                         )}
                       </span>
                       <span>
-                        {wordData.phonetics[0]?.text ??
-                          wordData.phonetics[1]?.text ??
-                          'unavailable'}
+                        {getPhoneticsText(wordData)}
                       </span>
                     </button>
 
@@ -480,9 +514,7 @@ const Main = (): JSX.Element => {
                             rel='noopener noreferrer'
                             className='break-all text-blue-400 transition-all hover:text-white focus:text-gray-400'
                           >
-                            {wordData.sourceUrls[0].length > 40
-                              ? `${wordData.sourceUrls[0].slice(0, 40)}...`
-                              : wordData.sourceUrls[0]}
+                            {handleUrlLength(wordData)}
                           </a>
                         </div>
                         <div className='border-b-0 border-l border-r border-gray-700 border-opacity-50 p-4 md:border-b'>
