@@ -4,10 +4,13 @@ import loader from '../assets/animated-search-icon.gif';
 import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
 import speakerIcon from '../assets/speaker-icon.svg';
-import playIcon from '../assets/play.svg'
-import searchIcon from '../assets/search-icon.svg'
-import infoIcon from "../assets/info-icon.svg";
-import closeIcon from "../assets/close-icon.svg";
+import {
+  PlayIcon,
+  SearchIcon,
+  CloseIcon,
+  InfoIcon,
+  SpeakerIcon,
+} from './svgComponents';
 
 /**
   Interface describing the structure of word details returned from a dictionary API.
@@ -148,18 +151,16 @@ const Main = (): JSX.Element => {
         ? `${wordData.sourceUrls[0].slice(0, 40)}...`
         : wordData.sourceUrls[0]
       : '';
-  }
+  };
 
   /**
    * Returns the phonetic text for a word, or a message indicating that the phonetic text is unavailable.
-   * @param {WordDetails} wordData - The word data object. 
+   * @param {WordDetails} wordData - The word data object.
    * @returns The phonetics text.
    */
   const getPhoneticsText = (wordData: WordDetails): string => {
-    return wordData.phonetics[0]?.text ??
-    wordData.phonetics[1]?.text ??
-      'N/A';
-  }
+    return wordData.phonetics[0]?.text ?? wordData.phonetics[1]?.text ?? 'N/A';
+  };
 
   return (
     <main className='mb-40 flex-grow'>
@@ -177,7 +178,8 @@ const Main = (): JSX.Element => {
         <div className='relative'>
           {/* search icon */}
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
-            <img src={searchIcon} alt="search icon" />
+            {/* <img src={searchIcon} alt="search icon" /> */}
+            <SearchIcon />
           </div>
 
           {/* input field */}
@@ -261,19 +263,13 @@ const Main = (): JSX.Element => {
                       <span>
                         {isPlaying ? (
                           // speaker icon while playing
-                          <img
-                            src={speakerIcon}
-                            alt='speaker icon'
-                            className='animate__animated animate__fadeIn w-5'
-                          />
+                          <SpeakerIcon />
                         ) : (
                           // play icon
-                          <img src={playIcon} alt="play icon" className='animate__animated animate__fadeIn w-5' />
+                          <PlayIcon />
                         )}
                       </span>
-                      <span>
-                        {getPhoneticsText(wordData)}
-                      </span>
+                      <span>{getPhoneticsText(wordData)}</span>
                     </button>
 
                     {/* start: alert when word pronunciation is unavailable */}
@@ -284,7 +280,9 @@ const Main = (): JSX.Element => {
                         role='alert'
                       >
                         <div className='animate__animated animate__bounceInDown flex rounded-lg bg-gray-800 p-4 text-blue-400'>
-                          <img src={infoIcon} alt="info icon" className='h-5 w-5 flex-shrink-0'/>
+                          <div className='h-5 w-5 flex-shrink-0'>
+                            <InfoIcon />
+                          </div>
                           <span className='sr-only'>Info</span>
                           <div className='ml-3 text-base font-medium'>
                             Pronunciation not available.
@@ -295,7 +293,9 @@ const Main = (): JSX.Element => {
                             onClick={() => setShowAlert(false)}
                           >
                             <span className='sr-only'>Close</span>
-                            <img src={closeIcon} alt="close icon" className='h-5 w-5' />
+                            <div className='h-5 w-5'>
+                              <CloseIcon />
+                            </div>
                           </button>
                         </div>
                       </div>
