@@ -1,16 +1,10 @@
 import 'animate.css';
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import loader from '../assets/animated-search-icon.gif';
 import searchingAnimation from '../assets/searching-animation.gif';
 import errorAnimation from '../assets/error-animation.gif';
-import speakerIcon from '../assets/speaker-icon.svg';
-import {
-  PlayIcon,
-  SearchIcon,
-  CloseIcon,
-  InfoIcon,
-  SpeakerIcon,
-} from './svgComponents';
+import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
+import FormField from './FormField';
 
 /**
   Interface describing the structure of word details returned from a dictionary API.
@@ -62,6 +56,10 @@ const Main = (): JSX.Element => {
     event.preventDefault();
     setUserInput(searchQuery);
     getWordDetails(searchQuery);
+  };
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearchQuery(event.target.value);
   };
 
   /**
@@ -164,46 +162,12 @@ const Main = (): JSX.Element => {
 
   return (
     <main className='mb-40 flex-grow'>
-      {/* start: search form */}
-      <form
-        className='animate__animated animate__fadeIn mx-auto w-full max-w-5xl px-4'
+      <FormField
+        placeholder='Search for a word...'
+        value={searchQuery}
+        onChange={handleInputChange}
         onSubmit={handleSubmit}
-      >
-        <label
-          htmlFor='search'
-          className='sr-only mb-2 text-sm font-medium text-gray-900'
-        >
-          Search
-        </label>
-        <div className='relative'>
-          {/* search icon */}
-          <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
-            {/* <img src={searchIcon} alt="search icon" /> */}
-            <SearchIcon />
-          </div>
-
-          {/* input field */}
-          <input
-            type='search'
-            id='search'
-            className='block w-full rounded-lg border border-gray-600 bg-gray-700 py-3 pr-24 pl-10 text-gray-300 placeholder-gray-400 transition-all focus:border-blue-500 focus:outline-none focus:ring-blue-500'
-            placeholder='Search for a word...'
-            required
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            autoComplete='off'
-          />
-
-          {/* search button */}
-          <button
-            type='submit'
-            className='absolute right-2.5 bottom-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-800'
-          >
-            Search
-          </button>
-        </div>
-      </form>
-      {/* start: search form */}
+      />
 
       {/* loader */}
       {status == 'fetching' && (
