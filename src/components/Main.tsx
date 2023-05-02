@@ -1,38 +1,11 @@
 import 'animate.css';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import loader from '../assets/animated-search-icon.gif';
-import searchingAnimation from '../assets/searching-animation.gif';
-import errorAnimation from '../assets/error-animation.gif';
 import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
 import FormField from './FormField';
-
-/**
-  Interface describing the structure of word details returned from a dictionary API.
-*/
-interface WordDetails {
-  title?: string;
-  word: string;
-  phonetics: {
-    text: string;
-    audio: string;
-  }[];
-  meanings: {
-    partOfSpeech: string;
-    definitions: {
-      definition: string;
-      synonyms: string[];
-      antonyms: string[];
-      example: string;
-    }[];
-    synonyms: string[];
-    antonyms: string[];
-  }[];
-  sourceUrls: string[];
-  license: {
-    name: string;
-    url: string;
-  };
-}
+import ErrorStatus from './ErrorStatus';
+import { WordDetails } from './types';
+import LoadingStatus from './LoadingStatus';
+import NotFoundStatus from './NotFoundStatus';
 
 /**
  * A component for searching and displaying dictionary definitions for words.
@@ -165,6 +138,7 @@ const Main = (): JSX.Element => {
     return wordData.phonetics[0]?.text ?? wordData.phonetics[1]?.text ?? 'N/A';
   };
 
+  // * Returned JSX * //
   return (
     <main className='mb-40 flex-grow'>
       <FormField
@@ -174,35 +148,11 @@ const Main = (): JSX.Element => {
         onSubmit={handleSubmit}
       />
 
-      {/* loader */}
-      {status == 'fetching' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex items-center justify-center'>
-          <img src={loader} alt='loading animation' className='w-64' />
-        </div>
-      )}
+      {status == 'fetching' && <LoadingStatus />}
 
-      {/* error */}
-      {status == 'error' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-xl text-gray-400'>
-          <img src={errorAnimation} alt='error animation' className='w-36' />
-          <p>There was an error...</p>
-        </div>
-      )}
+      {status == 'error' && <ErrorStatus />}
 
-      {/* invalid search || word definition unavailable */}
-      {status == 'no definitions' && (
-        <div className='animate__animated animate__fadeIn mt-8 flex flex-col items-center justify-center text-center leading-relaxed text-gray-400 sm:text-xl'>
-          <p>
-            Oops! Looks like we've hit a lexical roadblock. No definition found
-            for '{userInput}'.
-          </p>
-          <img
-            src={searchingAnimation}
-            alt='searching animation'
-            className='-mt-10 w-96'
-          />
-        </div>
-      )}
+      {status == 'no definitions' && <NotFoundStatus userInput={userInput} />}
 
       {/* start: search result */}
       {status == 'definition found' && (
