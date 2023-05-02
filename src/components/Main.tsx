@@ -58,6 +58,11 @@ const Main = (): JSX.Element => {
     getWordDetails(searchQuery);
   };
 
+  /**
+   * Handles the updating of the searchQuery variable when the form field value changes
+   * @param {ChangeEvent} event - The form submission event.
+   * @returns {void}
+   */
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchQuery(event.target.value);
   };
