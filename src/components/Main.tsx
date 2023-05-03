@@ -1,11 +1,9 @@
 import 'animate.css';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
 import FormField from './FormField';
-import ErrorStatus from './ErrorStatus';
 import { WordDetails } from './types';
-import LoadingStatus from './LoadingStatus';
-import NotFoundStatus from './NotFoundStatus';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { ErrorStatus, LoadingStatus, NotFoundStatus } from './FetchStatus';
+import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
 
 /**
  * A component for searching and displaying dictionary definitions for words.
