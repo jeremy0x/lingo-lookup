@@ -1,9 +1,11 @@
 import 'animate.css';
 import FormField from './FormField';
 import { WordDetails } from './types';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
 import { ErrorStatus, LoadingStatus, NotFoundStatus } from './FetchStatus';
 import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
+import PronunciationAlert from './UnavailablePronunciationAlert';
+import SearchResultsHeader from './SearchResultsHeader';
 
 /**
  * A component for searching and displaying dictionary definitions for words.
@@ -77,12 +79,10 @@ const Main = (): JSX.Element => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  /**
-   * Plays a phonetic audio file from the specified URL.
-   * @param {string} audioUrl - The URL of the audio file to play.
-   * @returns {void}
-   */
-  const playPhoneticAudio = (audioUrl: string): void => {
+  const playPhoneticAudio: MouseEventHandler<HTMLButtonElement> = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const audioUrl = event.currentTarget.getAttribute('data-audio-url');
     setIsPlaying(true);
     if (!audioUrl) {
       setShowAlert(true);
@@ -128,12 +128,11 @@ const Main = (): JSX.Element => {
   };
 
   /**
-   * Returns the phonetic text for a word, or a message indicating that the phonetic text is unavailable.
-   * @param {WordDetails} wordData - The word data object.
-   * @returns The phonetics text.
+   * Closes the alert that shows when a word pronunciation is unavailable
+   * @returns {void}
    */
-  const getPhoneticsText = (wordData: WordDetails): string => {
-    return wordData.phonetics[0]?.text ?? wordData.phonetics[1]?.text ?? 'N/A';
+  const closeAlert: MouseEventHandler<HTMLButtonElement> = (): void => {
+    setShowAlert(false);
   };
 
   // * Returned JSX * //
@@ -160,64 +159,17 @@ const Main = (): JSX.Element => {
               {index === 0 && (
                 <div className='flex w-full flex-col'>
                   {/* start: results header */}
-                  <div className='flex flex-row flex-wrap items-center justify-between gap-x-4 gap-y-8 px-4 pb-12 lg:px-8 xl:px-20'>
-                    {/* word searched */}
-                    <div className='max-w-full break-all text-5xl font-normal sm:text-7xl'>
-                      {handleWordLength(wordData)}
-                    </div>
-
-                    {/* pronunciation button */}
-                    <button
-                      type='button'
-                      onClick={() =>
-                        playPhoneticAudio(
-                          wordData.phonetics[0]?.audio ??
-                            wordData.phonetics[1]?.audio
-                        )
-                      }
-                      className='flex w-fit flex-row items-center justify-center gap-4 rounded-full border border-gray-700 border-opacity-50 py-2 px-5 transition-all hover:bg-gray-700 hover:bg-opacity-50 sm:px-14'
-                    >
-                      <span>
-                        {isPlaying ? (
-                          // speaker icon while playing
-                          <SpeakerIcon />
-                        ) : (
-                          // play icon
-                          <PlayIcon />
-                        )}
-                      </span>
-                      <span>{getPhoneticsText(wordData)}</span>
-                    </button>
-
-                    {/* start: alert when word pronunciation is unavailable */}
-                    {showAlert && (
-                      <div
-                        id='alert-4'
-                        className='fixed top-4 left-1/2 mb-4 w-11/12  max-w-lg -translate-x-1/2 sm:w-3/4 lg:w-1/2'
-                        role='alert'
-                      >
-                        <div className='animate__animated animate__bounceInDown flex rounded-lg bg-gray-800 p-4 text-blue-400'>
-                          <div className='h-5 w-5 flex-shrink-0'>
-                            <InfoIcon />
-                          </div>
-                          <span className='sr-only'>Info</span>
-                          <div className='ml-3 text-base font-medium'>
-                            Pronunciation not available.
-                          </div>
-                          <button
-                            type='button'
-                            className='-mx-1.5 -my-1.5 ml-auto inline-flex h-8 w-8 rounded-lg  bg-gray-800   p-1.5 text-blue-400 hover:bg-gray-700 focus:ring-2 focus:ring-blue-400'
-                            onClick={() => setShowAlert(false)}
-                          >
-                            <span className='sr-only'>Close</span>
-                            <div className='h-5 w-5'>
-                              <CloseIcon />
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <SearchResultsHeader
+                    wordData={wordData}
+                    isPlaying={isPlaying}
+                    playPhoneticAudio={playPhoneticAudio}
+                    showAlert={showAlert}
+                    closeAlert={closeAlert}
+                    phonetic={
+                      wordData.phonetics[0]?.audio ??
+                      wordData.phonetics[1]?.audio
+                    }
+                  />
                   {/* end: results header */}
 
                   {/* start: word details */}
