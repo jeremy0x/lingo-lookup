@@ -85,7 +85,7 @@ const Main = (): JSX.Element => {
    */
   const playPhoneticAudio: MouseEventHandler<HTMLButtonElement> = (
     event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  ): void => {
     const audioUrl = event.currentTarget.getAttribute('data-audio-url');
     setIsPlaying(true);
     if (!audioUrl) {
