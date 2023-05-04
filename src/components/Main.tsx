@@ -3,8 +3,6 @@ import FormField from './FormField';
 import { WordDetails } from './types';
 import { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
 import { ErrorStatus, LoadingStatus, NotFoundStatus } from './FetchStatus';
-import { PlayIcon, CloseIcon, InfoIcon, SpeakerIcon } from './svgComponents';
-import PronunciationAlert from './UnavailablePronunciationAlert';
 import SearchResultsHeader from './SearchResultsHeader';
 
 /**
