@@ -22,6 +22,7 @@ const UnavailablePronunciationAlert = ({
         <div className='ml-3 text-base font-medium'>
           Pronunciation not available.
         </div>
+
         <button
           type='button'
           className='-mx-1.5 -my-1.5 ml-auto inline-flex h-8 w-8 rounded-lg  bg-gray-800   p-1.5 text-blue-400 hover:bg-gray-700 focus:ring-2 focus:ring-blue-400'

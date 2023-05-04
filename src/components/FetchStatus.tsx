@@ -30,6 +30,7 @@ export const NotFoundStatus = ({
         Oops! Looks like we've hit a lexical roadblock. No definition found for
         '{userInput}'.
       </p>
+
       <img
         src={searchingAnimation}
         alt='searching animation'
