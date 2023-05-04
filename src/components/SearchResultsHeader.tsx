@@ -23,15 +23,15 @@ const SearchResultsHeader = (props: SearchResultsHeaderProps): JSX.Element => {
   } = props;
 
   /**
-   * Returns a truncated version of a word if it exceeds 10 characters.
+   * Returns a truncated version of a word if it exceeds 12 characters.
    * @param {WordDetails} wordData - The word data object.
    * @param {string} wordData.word - The word to be shortened.
    * @returns {string} The formatted word.
    */
   const handleWordLength = (wordData: WordDetails): string => {
     return wordData.word
-      ? wordData.word.length > 10
-        ? `${wordData.word.slice(0, 10)}...`
+      ? wordData.word.length > 12
+        ? `${wordData.word.slice(0, 12)}...`
         : wordData.word
       : '';
   };
