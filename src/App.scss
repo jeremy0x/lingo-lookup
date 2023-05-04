@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@700&display=swap');
 
 *,
 *::before,
@@ -14,6 +15,10 @@ html,
 body {
   font-family: 'Atkinson Hyperlegible', sans-serif;
   font-display: swap;
+}
+
+h1 {
+  font-family: 'Cormorant Upright', serif;
 }
 
 *::selection {
