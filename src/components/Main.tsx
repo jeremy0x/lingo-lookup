@@ -87,7 +87,7 @@ const Main = (): JSX.Element => {
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     const audioUrl = event.currentTarget.getAttribute('data-audio-url');
-    setIsPlaying(true);
+
     if (!audioUrl) {
       setShowAlert(true);
       setTimeout(() => {
@@ -95,6 +95,8 @@ const Main = (): JSX.Element => {
       }, 2000);
       return;
     }
+
+    setIsPlaying(true);
     setShowAlert(false);
     const audio = new Audio(audioUrl);
     audio.play();
@@ -110,6 +112,15 @@ const Main = (): JSX.Element => {
    */
   const closeAlert: MouseEventHandler<HTMLButtonElement> = (): void => {
     setShowAlert(false);
+  };
+
+  /**
+   * Returns the URL of the first available audio file for the given word.
+   * @param {WordDetails} wordData  - An object containing information about a word.
+   * @returns {string} The URL of the first available audio file, or an empty string if none is found.
+   */
+  const getFirstAvailableAudio = (wordData: WordDetails): string => {
+    return wordData.phonetics[0]?.audio ?? wordData.phonetics[1]?.audio;
   };
 
   // * Returned JSX * //
@@ -136,10 +147,7 @@ const Main = (): JSX.Element => {
                     playPhoneticAudio={playPhoneticAudio}
                     showAlert={showAlert}
                     closeAlert={closeAlert}
-                    phonetic={
-                      wordData.phonetics[0]?.audio ??
-                      wordData.phonetics[1]?.audio
-                    }
+                    phonetic={getFirstAvailableAudio(wordData)}
                   />
 
                   <SearchedWordDetails
