@@ -1,7 +1,8 @@
 import 'animate.css';
-import FormField from './FormField';
 import { WordDetails } from './types';
 import { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
+import fetchData from './fetchData';
+import FormField from './FormField';
 import RenderStatus from './RenderStatus';
 import SearchResultsHeader from './SearchResultsHeader';
 import SearchedWordDetails from './SearchedWordDetails';
@@ -47,11 +48,14 @@ const Main = (): JSX.Element => {
   async function getWordDetails(searchQuery: string): Promise<void> {
     setStatus('fetching');
     setShowAlert(false);
+
+    const DICTIONARY_API_BASE_URL =
+      'https://api.dictionaryapi.dev/api/v2/entries/en/';
+
     try {
-      const response = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchQuery}`
+      const wordDetails = await fetchData(
+        `${DICTIONARY_API_BASE_URL}${searchQuery}`
       );
-      const wordDetails = await response.json();
 
       setUserInput(searchQuery);
 
