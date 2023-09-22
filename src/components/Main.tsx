@@ -65,9 +65,12 @@ const Main = (): JSX.Element => {
         setStatus('definition found');
         setSearchResult(wordDetails);
       }
-    } catch (error) {
-      setStatus('error');
-      console.error(error);
+    } catch (error: any) {
+      if (error.message === 'An error occurred: 404') {
+        setStatus('no definitions');
+      } else {
+        setStatus('error');
+      }
     }
   }
 
