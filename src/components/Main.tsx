@@ -1,6 +1,12 @@
 import 'animate.css';
 import { WordDetails } from './types';
-import { ChangeEvent, FormEvent, MouseEventHandler, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import fetchData from './fetchData';
 import FormField from './FormField';
 import RenderStatus from './RenderStatus';
@@ -12,7 +18,7 @@ import SearchedWordDetails from './SearchedWordDetails';
  * @returns {JSX.Element} The rendered component.
  */
 const Main = (): JSX.Element => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('hello');
   const [userInput, setUserInput] = useState<string>('');
   const [status, setStatus] = useState<string>('');
   const [searchResult, setSearchResult] = useState<WordDetails[]>([]);
@@ -130,7 +136,13 @@ const Main = (): JSX.Element => {
     return wordData.phonetics[0]?.audio ?? wordData.phonetics[1]?.audio;
   };
 
-  // * Returned JSX * //
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      setUserInput(searchQuery);
+      getWordDetails(searchQuery);
+    }
+  }, []);
+
   return (
     <main className='mb-40 flex-grow'>
       <FormField
